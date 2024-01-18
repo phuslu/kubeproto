@@ -1,4 +1,4 @@
-package kubeproto
+package v1
 
 import (
 	"time"
