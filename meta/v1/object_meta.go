@@ -179,8 +179,12 @@ func (om *ObjectMeta) UnmarshalProtobuf(src []byte) (err error) {
 	om.ResourceVersion = ""
 	om.Generation = 0
 	om.CreationTimestamp = Time{}
-	om.DeletionTimestamp = nil
-	om.DeletionGracePeriodSeconds = nil
+	if om.DeletionTimestamp != nil {
+		*om.DeletionTimestamp = Time{}
+	}
+	if om.DeletionGracePeriodSeconds != nil {
+		*om.DeletionGracePeriodSeconds = 0
+	}
 	om.Labels = nil
 	om.Annotations = nil
 	om.OwnerReferences = nil
@@ -250,13 +254,19 @@ func (om *ObjectMeta) UnmarshalProtobuf(src []byte) (err error) {
 			if err := ts.UnmarshalProtobuf(data); err != nil {
 				return fmt.Errorf("cannot unmarshal ManagedFieldsEntry: %w", err)
 			}
+			if om.DeletionTimestamp == nil {
+				om.DeletionTimestamp = new(Time)
+			}
 			om.DeletionTimestamp.Time = time.Unix(ts.Seconds, int64(ts.Nanos))
 		case 10:
 			seconds, ok := fc.Int64()
 			if !ok {
 				return fmt.Errorf("cannot read ManagedFieldsEntry name")
 			}
-			om.DeletionGracePeriodSeconds = &seconds
+			if om.DeletionGracePeriodSeconds == nil {
+				om.DeletionGracePeriodSeconds = new(int64)
+			}
+			*om.DeletionGracePeriodSeconds = seconds
 		case 11, 12:
 			maps := map[string]string{}
 			switch fc.FieldNum {
