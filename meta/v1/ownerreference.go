@@ -44,8 +44,12 @@ func (or *OwnerReference) UnmarshalProtobuf(src []byte) (err error) {
 	or.Kind = ""
 	or.Name = ""
 	or.UID = ""
-	or.Controller = nil
-	or.BlockOwnerDeletion = nil
+	if or.Controller != nil {
+		*or.Controller = false
+	}
+	if or.BlockOwnerDeletion != nil {
+		*or.BlockOwnerDeletion = false
+	}
 
 	// Parse OwnerReference message at src
 	var fc easyproto.FieldContext
@@ -81,13 +85,19 @@ func (or *OwnerReference) UnmarshalProtobuf(src []byte) (err error) {
 			if !ok {
 				return fmt.Errorf("cannot read OwnerReference name")
 			}
-			or.Controller = &controller
+			if or.Controller == nil {
+				or.Controller = new(bool)
+			}
+			*or.Controller = controller
 		case 6:
 			blockOwnerDeletion, ok := fc.Bool()
 			if !ok {
 				return fmt.Errorf("cannot read OwnerReference name")
 			}
-			or.BlockOwnerDeletion = &blockOwnerDeletion
+			if or.BlockOwnerDeletion == nil {
+				or.BlockOwnerDeletion = new(bool)
+			}
+			*or.BlockOwnerDeletion = blockOwnerDeletion
 		}
 	}
 	return
