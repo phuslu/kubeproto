@@ -185,8 +185,16 @@ func (om *ObjectMeta) UnmarshalProtobuf(src []byte) (err error) {
 	if om.DeletionGracePeriodSeconds != nil {
 		*om.DeletionGracePeriodSeconds = 0
 	}
-	om.Labels = nil
-	om.Annotations = nil
+	if om.Labels != nil {
+		for k := range om.Labels {
+			delete(om.Labels, k)
+		}
+	}
+	if om.Annotations != nil {
+		for k := range om.Annotations {
+			delete(om.Annotations, k)
+		}
+	}
 	om.OwnerReferences = nil
 	om.Finalizers = nil
 	om.ManagedFields = nil
@@ -268,12 +276,18 @@ func (om *ObjectMeta) UnmarshalProtobuf(src []byte) (err error) {
 			}
 			*om.DeletionGracePeriodSeconds = seconds
 		case 11, 12:
-			maps := map[string]string{}
+			var keyvalues map[string]string
 			switch fc.FieldNum {
 			case 11:
-				om.Labels = maps
+				if om.Labels == nil {
+					om.Labels = make(map[string]string)
+				}
+				keyvalues = om.Labels
 			case 12:
-				om.Annotations = maps
+				if om.Annotations == nil {
+					om.Annotations = make(map[string]string)
+				}
+				keyvalues = om.Annotations
 			}
 			data, ok := fc.MessageData()
 			if !ok {
@@ -296,7 +310,7 @@ func (om *ObjectMeta) UnmarshalProtobuf(src []byte) (err error) {
 					if !ok {
 						return fmt.Errorf("cannot read ManagedFieldsEntry name")
 					}
-					maps[key] = value
+					keyvalues[key] = value
 				}
 			}
 		case 13:
