@@ -3,7 +3,7 @@ package easyproto_test
 import (
 	"fmt"
 
-	"github.com/phuslu/kubeproto/internal/easyproto"
+	"github.com/phuslu/kubeproto/easyproto"
 )
 
 // Timeseries is a named time series.

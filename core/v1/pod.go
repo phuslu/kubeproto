@@ -3,7 +3,7 @@ package v1
 import (
 	"fmt"
 
-	"github.com/phuslu/kubeproto/internal/easyproto"
+	"github.com/phuslu/kubeproto/easyproto"
 	metav1 "github.com/phuslu/kubeproto/meta/v1"
 )
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/phuslu/kubeproto/internal/easyproto"
+	"github.com/phuslu/kubeproto/easyproto"
 )
 
 // ObjectMeta is metadata that all persisted resources must have, which includes all objects

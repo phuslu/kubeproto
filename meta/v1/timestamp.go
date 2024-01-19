@@ -3,7 +3,7 @@ package v1
 import (
 	"fmt"
 
-	"github.com/phuslu/kubeproto/internal/easyproto"
+	"github.com/phuslu/kubeproto/easyproto"
 )
 
 // Timestamp is a struct that is equivalent to Time, but intended for

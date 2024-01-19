@@ -3,7 +3,7 @@ package v1
 import (
 	"fmt"
 
-	"github.com/phuslu/kubeproto/internal/easyproto"
+	"github.com/phuslu/kubeproto/easyproto"
 )
 
 // OwnerReference contains enough information to let you identify an owning
