@@ -195,9 +195,15 @@ func (om *ObjectMeta) UnmarshalProtobuf(src []byte) (err error) {
 			delete(om.Annotations, k)
 		}
 	}
-	om.OwnerReferences = nil
-	om.Finalizers = nil
-	om.ManagedFields = nil
+	if om.OwnerReferences != nil {
+		om.OwnerReferences = om.OwnerReferences[:0]
+	}
+	if om.Finalizers != nil {
+		om.Finalizers = om.Finalizers[:0]
+	}
+	if om.ManagedFields != nil {
+		om.ManagedFields = om.ManagedFields[:0]
+	}
 
 	// Parse ObjectMeta message at src
 	var fc easyproto.FieldContext
