@@ -53,9 +53,13 @@ func (mfe *ManagedFieldsEntry) UnmarshalProtobuf(src []byte) (err error) {
 	mfe.Manager = ""
 	mfe.Operation = ""
 	mfe.APIVersion = ""
-	mfe.Time = nil
+	if mfe.Time != nil {
+		*mfe.Time = Time{}
+	}
 	mfe.FieldsType = ""
-	mfe.FieldsV1 = nil
+	if mfe.FieldsV1 != nil {
+		mfe.FieldsV1.Raw = mfe.FieldsV1.Raw[:0]
+	}
 	mfe.Subresource = ""
 
 	// Parse ManagedFieldsEntry message at src
@@ -87,7 +91,9 @@ func (mfe *ManagedFieldsEntry) UnmarshalProtobuf(src []byte) (err error) {
 			if !ok {
 				return fmt.Errorf("cannot read ManagedFieldsEntry name")
 			}
-			mfe.Time = &Time{}
+			if mfe.Time == nil {
+				mfe.Time = new(Time)
+			}
 			if err := mfe.Time.UnmarshalProtobuf(data); err != nil {
 				return fmt.Errorf("cannot unmarshal ManagedFieldsEntry: %w", err)
 			}
@@ -101,7 +107,9 @@ func (mfe *ManagedFieldsEntry) UnmarshalProtobuf(src []byte) (err error) {
 			if !ok {
 				return fmt.Errorf("cannot read ManagedFieldsEntry name")
 			}
-			mfe.FieldsV1 = &FieldsV1{}
+			if mfe.FieldsV1 == nil {
+				mfe.FieldsV1 = new(FieldsV1)
+			}
 			if err := mfe.FieldsV1.UnmarshalProtobuf(data); err != nil {
 				return fmt.Errorf("cannot unmarshal ManagedFieldsEntry: %w", err)
 			}
