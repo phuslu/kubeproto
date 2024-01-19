@@ -3,7 +3,7 @@ package v1
 import (
 	"fmt"
 
-	"github.com/VictoriaMetrics/easyproto"
+	"github.com/phuslu/kubeproto/internal/easyproto"
 )
 
 // FieldsV1 stores a set of fields in a data structure like a Trie, in JSON format.

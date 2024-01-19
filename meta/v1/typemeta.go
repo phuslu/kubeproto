@@ -3,7 +3,7 @@ package v1
 import (
 	"fmt"
 
-	"github.com/VictoriaMetrics/easyproto"
+	"github.com/phuslu/kubeproto/internal/easyproto"
 )
 
 // TypeMeta describes an individual object in an API response or request

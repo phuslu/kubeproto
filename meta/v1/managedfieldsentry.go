@@ -3,7 +3,7 @@ package v1
 import (
 	"fmt"
 
-	"github.com/VictoriaMetrics/easyproto"
+	"github.com/phuslu/kubeproto/internal/easyproto"
 )
 
 // ManagedFieldsEntry is a workflow-id, a FieldSet and the group version of the resource
